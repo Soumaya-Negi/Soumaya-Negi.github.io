@@ -1,0 +1,1069 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<!--
+  PUBLISH ON GITHUB PAGES
+  1. On github.com open (or create) a PUBLIC repo named exactly YOURUSERNAME.github.io
+  2. Add file > Upload files > drop this index.html > Commit
+  3. Settings > Pages > Deploy from a branch > main / (root) > Save
+  4. Live at https://YOURUSERNAME.github.io in about a minute
+
+  EDIT: everything on the page comes from the SITE block in the script near the bottom.
+  PROJECTS are whole games, start to end. Each opens its own page: the game loop, then every system inside it on its own, with its clip.
+  A project page has its own address (yoursite/#quarterstaff-combat-kit), so you can send someone straight to it.
+  VIDEOS: short clips are video files in a "clips" folder next to this file (clip: "clips/impact.mp4"). Upload the folder with it.
+         Long videos (the full loop, trailers) are YouTube links (yt: "..."). Any slot takes either one; if both are set, the clip wins.
+         Clips play even when you open this file from a folder; YouTube videos only play once the site is online.
+-->
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="color-scheme" content="dark">
+<meta name="theme-color" content="#161618">
+<meta name="referrer" content="strict-origin-when-cross-origin">
+<title>Soumaya - Roblox Scripter</title>
+<meta name="description" content="Roblox scripter: combat, abilities and server-checked game systems. Projects, systems and contact.">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Soumaya - Roblox Scripter">
+<meta property="og:description" content="Roblox scripter: combat, abilities and server-checked game systems.">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect x='14' y='14' width='36' height='36' rx='6' transform='rotate(15 32 32)' fill='%238b5cf6'/%3E%3Crect x='27' y='27' width='10' height='10' rx='1' transform='rotate(15 32 32)' fill='%23161618'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@500;600;700;800&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bar-h:72px;                 /* height of the top bar */
+  --po-h:68px;                  /* top bar on a project page */
+  --display:Sora,"Segoe UI",system-ui,sans-serif;
+  --body:Manrope,"Segoe UI",system-ui,-apple-system,Arial,sans-serif;
+  --bg:#161618;                 /* page */
+  --bg2:#1b1b1e;                /* solid sections (the little character hides behind these) */
+  --card:#212125;
+  --grid:rgba(255,255,255,.035);
+  --line:rgba(255,255,255,.09);
+  --line2:rgba(255,255,255,.16);
+  --rule:rgba(255,255,255,.2);
+  --text:#f2f2f4;--mute:#a4a4ae;--dim:#71717c;
+  --accent:#8b5cf6;--accent-2:#c4b5fd;
+  --grad:linear-gradient(100deg,#8b5cf6 0%,#a78bfa 48%,#e0c3fc 100%);
+  --r:14px;
+}
+
+/* ---------- Base ---------- */
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth;scroll-padding-top:calc(var(--bar-h) - 4px);background:var(--bg);color-scheme:dark;-webkit-text-size-adjust:100%}
+body,.po{background:linear-gradient(var(--grid) 1px,transparent 1px) 0 0/40px 40px,linear-gradient(90deg,var(--grid) 1px,transparent 1px) 0 0/40px 40px,var(--bg)}
+body{min-height:100vh;font:400 1rem/1.65 var(--body);color:var(--text);overflow-x:clip;-webkit-font-smoothing:antialiased}
+a{color:inherit}
+ul,ol{list-style:none}
+svg{display:block;flex:none}
+button{font:inherit;color:inherit;background:none;border:0;cursor:pointer;text-align:inherit}
+:focus-visible{outline:2px solid var(--accent-2);outline-offset:3px}
+.vh{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+.skip{position:absolute;left:-999px;top:0}
+.skip:focus{left:1rem;top:1rem;z-index:50;background:var(--accent);color:#fff;padding:.6rem 1rem;font-weight:700}
+.wrap{width:100%;max-width:1180px;margin-inline:auto;padding-inline:clamp(1.1rem,4vw,2.5rem)}
+h1,h2,h3,h4{font-family:var(--display);font-weight:700;letter-spacing:-.02em;line-height:1.1}
+.grad{font-style:normal;background:var(--grad);-webkit-background-clip:text;background-clip:text;color:transparent}
+.nb{white-space:nowrap}
+.eyebrow{font:800 .76rem/1.2 var(--body);letter-spacing:.16em;text-transform:uppercase}
+
+/* everything sits above the little character, so it hides behind anything solid: the Projects section, the cards */
+main,footer.site{position:relative;z-index:2}
+
+/* ---------- Top bar: logo and name on the left, menu in the middle, "Start a project" on the right ---------- */
+.top{position:sticky;top:0;z-index:30;background:var(--bg);background:linear-gradient(90deg,transparent 55%,rgba(139,92,246,.16) 96%),rgba(22,22,24,.86);-webkit-backdrop-filter:blur(14px);backdrop-filter:blur(14px);border-bottom:1px solid var(--rule)}
+.bar{display:grid;grid-template-columns:1fr auto 1fr;align-items:center;gap:1.5rem;height:var(--bar-h);padding-inline:clamp(1rem,3.4vw,4.25rem)}
+.brand{display:flex;align-items:stretch;gap:.9rem;min-width:0;justify-self:start;padding:.2rem 0;text-decoration:none;transform:skewX(-10deg)}
+.bars{display:flex;gap:5px;flex:none;transition:gap .25s}
+.bars i{width:7px;border-radius:1px;background:var(--accent)}
+.bars i+i{width:3px;background:var(--text)}
+.brand:hover .bars,.brand:focus-visible .bars{gap:9px}
+.who{display:flex;flex-direction:column;justify-content:center;min-width:0}
+.who b,.who small{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.who b{font:800 clamp(1.25rem,1.1rem + .5vw,1.5rem)/1 var(--display);letter-spacing:-.01em}
+.who small{margin-top:.3rem;color:var(--mute);font:600 .78rem/1.1 var(--body)}
+.nav{display:flex;justify-self:center;gap:clamp(1.4rem,2.4vw,2.1rem)}
+.nav a{position:relative;padding:.55rem 0;text-decoration:none;font:600 .82rem/1 var(--body);letter-spacing:.1em;text-transform:uppercase;transition:color .2s}
+.nav a::after{content:"";position:absolute;left:0;right:0;bottom:0;height:2px;background:var(--accent);transform:scaleX(0);transform-origin:left;transition:transform .3s cubic-bezier(.22,1,.36,1)}
+.nav a:hover,.nav a:focus-visible,.nav a.on{color:var(--accent-2)}
+.nav a:hover::after,.nav a.on::after{transform:scaleX(1)}
+.topcta{display:flex;align-items:center;align-self:stretch;justify-self:end;gap:1.2rem;padding-left:1.4rem;border-left:1px solid var(--rule);text-decoration:none;font:600 .82rem/1 var(--body);letter-spacing:.1em;text-transform:uppercase}
+.lbl{white-space:nowrap}
+.sq{display:grid;place-items:center;width:36px;height:36px;border-radius:9px;background:var(--accent);color:#fff;transition:filter .2s,transform .2s}
+.sq svg{width:12px;height:12px}
+.topcta:hover .sq,.topcta:focus-visible .sq{filter:brightness(1.12);transform:translate(2px,-2px)}
+
+/* ---------- Opening ---------- */
+.hero{position:relative;display:grid;grid-template-rows:1fr auto;min-height:calc(100vh - var(--bar-h));min-height:calc(100svh - var(--bar-h));padding:2rem 0 clamp(1.6rem,4vh,2.4rem);text-align:center}
+.hero>.wrap:first-child{align-self:start}
+.hero .avail{margin-top:0}
+.hero h1{margin-top:1rem}
+/* the highlight reel: gameplay on the first screen */
+.reel{max-width:1000px;margin:clamp(2rem,5vh,3rem) auto 0}
+.reel .media{border-radius:18px;box-shadow:0 0 0 1px var(--line2),0 40px 90px -40px rgba(139,92,246,.55)}
+.reel figcaption{margin-top:.8rem;color:var(--dim);font:700 .76rem/1 var(--body);letter-spacing:.14em;text-transform:uppercase}
+/* my role, proof numbers, play button */
+.cred{display:flex;flex-direction:column;align-items:center;gap:1.2rem;margin:-1rem auto 2.4rem;text-align:center}
+.role-line{display:inline-flex;align-items:center;flex-wrap:wrap;justify-content:center;gap:.7rem;max-width:62ch;padding:.6rem 1.1rem;border:1px solid var(--line2);border-radius:12px;background:var(--card);font-weight:600}
+.role-line b{padding:.25rem .55rem;border-radius:6px;background:rgba(139,92,246,.18);color:var(--accent-2);font:800 .7rem/1 var(--body);letter-spacing:.14em;text-transform:uppercase}
+.proof{display:flex;flex-wrap:wrap;justify-content:center;gap:1rem 3rem}
+.proof dt{font:800 clamp(1.6rem,1.2rem + 1.2vw,2.2rem)/1 var(--display);letter-spacing:-.03em}
+.proof dd{margin-top:.3rem;color:var(--mute);font-weight:600;font-size:.88rem}
+.btn.play svg{width:20px;height:20px}
+/* captions under clips, the code button, "See it" links, quotes */
+.sysband .part .cap{margin-top:.35rem;color:var(--mute);font-size:.95rem;line-height:1.5}
+.band-side{display:flex;align-items:center;gap:.6rem;align-self:flex-start;margin-left:auto}
+.band-side>small{padding:.4rem .75rem;border:1px solid color-mix(in srgb,var(--c) 45%,transparent);border-radius:999px;color:var(--c);font:700 .8rem/1 var(--body);white-space:nowrap}
+.codebtn{display:inline-flex;align-items:center;gap:.45rem;padding:.4rem .8rem;border-radius:999px;background:var(--c);color:#17171a;font:800 .8rem/1 var(--body);text-decoration:none;white-space:nowrap}
+.codebtn svg{width:11px;height:11px}
+.see{display:inline-flex;align-items:center;gap:.45rem;margin-top:1rem;color:var(--accent-2);font:700 .86rem/1 var(--body);text-decoration:none}
+.see svg{width:12px;height:12px}
+.see:hover{text-decoration:underline;text-underline-offset:4px}
+.vouches{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,320px),1fr));gap:1.2rem}
+.vouch{padding:1.4rem 1.5rem;border:1px solid var(--line2);border-radius:var(--r);background:var(--card)}
+.vouch p{font-size:1.02rem}
+.vouch footer{margin-top:.9rem;color:var(--mute);font-weight:700;font-size:.88rem}
+.vouch a{color:var(--accent-2)}
+.hero-bot{display:grid;grid-template-columns:minmax(0,1fr) auto minmax(0,1fr);align-items:end;margin-top:2rem}
+.explore{justify-self:center;display:inline-flex;align-items:center;gap:.9rem;padding:.6rem 0 .7rem;border-bottom:1px solid var(--line2);font:700 .78rem/1 var(--body);letter-spacing:.16em;text-transform:uppercase;text-decoration:none;transition:border-color .2s,color .2s}
+.explore svg{width:13px;height:13px;color:var(--accent-2)}
+.explore:hover,.explore:focus-visible{border-color:var(--accent);color:var(--accent-2)}
+.reply{display:grid;justify-items:end;justify-self:end;gap:.3rem;text-align:right}
+.reply small{color:var(--dim);font:800 .66rem/1 var(--body);letter-spacing:.14em;text-transform:uppercase}
+.reply span{font-size:.9rem;font-weight:700}
+@media(max-width:640px){.hero-bot{grid-template-columns:1fr;justify-items:center;gap:1rem}.hero-bot>span:empty,.reply{display:none}}
+.hero::before{content:"";position:absolute;left:50%;top:38%;z-index:-1;width:min(60rem,92vw);aspect-ratio:2;transform:translate(-50%,-50%);background:radial-gradient(closest-side,rgba(139,92,246,.14),transparent);pointer-events:none}
+.hero h1{max-width:20ch;margin:1.3rem auto 0;font-size:clamp(3rem,1.2rem + 6vw,6.6rem);line-height:1.05;letter-spacing:-.04em;text-wrap:balance}
+.sub{max-width:52ch;margin:1.4rem auto 0;color:var(--mute);font-size:clamp(1.02rem,.95rem + .3vw,1.2rem);text-wrap:balance}
+.row{display:flex;justify-content:center;align-items:center;flex-wrap:wrap;gap:1rem 2rem;margin-top:2.3rem}
+.box{display:inline-flex;align-items:center;gap:1.2rem;padding:1rem 1.5rem;border:1px solid var(--line2);border-radius:10px;background:#1d1d21;font:700 1.04rem/1 var(--body);text-decoration:none;transition:border-color .2s,background .2s}
+.box svg{width:15px;height:15px;transition:transform .25s cubic-bezier(.22,1,.36,1)}
+.box:hover,.box:focus-visible{border-color:var(--accent);background:#211e2a}
+.box:hover svg,.box:focus-visible svg{transform:translateX(3px)}
+.lnk{display:inline-flex;align-items:center;gap:.7rem;padding:.5rem 0;font:700 1.04rem/1 var(--body);text-decoration:none;transition:color .2s}
+.lnk svg{width:21px;height:21px;color:var(--accent-2)}
+.lnk:hover,.lnk:focus-visible{color:var(--accent-2)}
+.avail{display:inline-flex;align-items:center;gap:.65rem;margin-top:2.4rem;padding:.55rem 1rem;border:1px solid var(--line2);border-radius:999px;background:rgba(255,255,255,.03);color:var(--mute);font:700 .82rem/1 var(--body)}
+.avail i{width:8px;height:8px;border-radius:50%;background:#22c55e;box-shadow:0 0 0 4px rgba(34,197,94,.18)}
+.avail.off i{background:var(--dim);box-shadow:none}
+
+/* ---------- Sections ---------- */
+.sec{position:relative;padding:clamp(3.4rem,7vw,5.6rem) 0;border-top:1px solid var(--rule)}
+.solid{background:var(--bg2)}
+.sec-head{margin-bottom:clamp(2.4rem,5vw,3.8rem);text-align:center}
+.sec-title{font-size:clamp(1.6rem,1.2rem + 1.2vw,2.2rem);font-weight:600}
+.sec-intro{max-width:54ch;margin:.7rem auto 0;color:var(--mute)}
+
+/* ---------- Career layout: text on the left, a coloured card on the right that stays put and swaps as you read.
+   Used for the projects on the home page and for the systems on a project page. On phones each card sits under its text. ---------- */
+.career{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:clamp(2rem,6vw,5.5rem);align-items:start}
+.c-lead{font-size:clamp(2rem,1.4rem + 2vw,3rem);letter-spacing:-.035em}
+.c-lead-sub{margin-top:.6rem;color:var(--mute)}
+.c-list{display:grid;gap:clamp(4rem,22vh,10rem);margin-top:clamp(2rem,5vh,3rem);padding-bottom:clamp(1rem,14vh,7rem)}
+.c-item{scroll-margin-top:calc(var(--po-h) + 2rem);transition:opacity .45s ease}
+.career.live .c-item{opacity:.32}
+.career.live .c-item.on,.career.live .c-item:focus-within{opacity:1}
+.career.live .c-item:not(.on):hover{opacity:.6}
+.c-num{color:var(--dim);font:800 .72rem/1 var(--body);letter-spacing:.16em;font-variant-numeric:tabular-nums}
+.c-item h3{margin-top:.6rem;font-size:clamp(1.45rem,1.15rem + .9vw,1.85rem)}
+.c-item h3 button{font:inherit;letter-spacing:inherit;transition:color .2s}
+.c-item h3 button:hover{color:var(--accent-2)}
+.c-role{margin-top:.3rem;color:var(--mute);font-size:.9rem;font-weight:700}
+.c-when{margin-top:.15rem;color:var(--dim);font-size:.86rem;font-weight:600}
+.c-when b{color:var(--accent-2);font-weight:700}
+.c-text{margin-top:.9rem}
+.bul{display:grid;gap:.42rem;margin-top:.9rem}
+.bul li{position:relative;padding-left:1.15rem;color:var(--mute);font-size:.93rem;line-height:1.55}
+.bul li::before{content:"";position:absolute;left:.15rem;top:.62em;width:5px;height:5px;border-radius:50%;background:var(--text)}
+.chips{display:flex;flex-wrap:wrap;gap:.45rem;margin-top:1.1rem}
+.chips li{padding:.32rem .7rem;border-radius:7px;background:rgba(139,92,246,.15);color:var(--accent-2);font:700 .76rem/1.2 var(--body)}
+.go{display:inline-flex;align-items:center;gap:.7rem;margin-top:1.4rem;padding:.75rem 1.05rem;border:1px solid var(--line2);border-radius:9px;background:#1d1d21;font:700 .92rem/1 var(--body);transition:border-color .2s,color .2s}
+.go svg{width:13px;height:13px;transition:transform .25s cubic-bezier(.22,1,.36,1)}
+.go:hover,.go:focus-visible{border-color:var(--accent);color:var(--accent-2)}
+.go:hover svg,.go:focus-visible svg{transform:translateX(3px)}
+.c-right{align-self:stretch}   /* the right column runs the full height, so the card can stay put inside it */
+.c-stick{position:sticky;top:calc(var(--bar-h) + 2vh)}
+.stack{display:grid}
+.pcard{grid-area:1/1;display:flex;flex-direction:column;gap:1.3rem;padding:clamp(1.2rem,2.2vw,1.7rem) clamp(1.2rem,2.2vw,1.7rem) 0;border-radius:var(--r);background:var(--c,var(--accent));overflow:hidden;opacity:0;visibility:hidden;transform:translateY(14px);transition:opacity .45s ease,transform .55s cubic-bezier(.22,1,.36,1),visibility 0s .55s}
+.pcard.on{opacity:1;visibility:visible;transform:none;transition-delay:0s}
+.pcard h4{max-width:22ch;color:#fff;font-size:clamp(1.2rem,1rem + .7vw,1.55rem);line-height:1.2;text-shadow:0 1px 3px rgba(0,0,0,.18)}
+.pcard .media{margin-top:auto;border-radius:12px 12px 0 0;box-shadow:0 -14px 40px -20px rgba(0,0,0,.5)}
+.pcard.inline{display:none}
+/* no line set (card: "") = just the video, no coloured frame */
+.pcard.bare{padding:0;background:none}
+.pcard.bare .media{border-radius:var(--r);box-shadow:0 0 0 1px var(--line2),0 30px 60px -30px rgba(0,0,0,.7)}
+
+/* ---------- Videos ---------- */
+.media{position:relative;display:block;width:100%;aspect-ratio:16/9;overflow:hidden;border-radius:12px;background:#0d0d0f center/cover no-repeat}
+.vp{position:absolute;inset:0;opacity:.01;transition:opacity .5s}   /* not 0: some browsers won't autoplay a fully transparent video */
+.vp.on{opacity:1}
+.media iframe{position:absolute;inset:0;width:100%;height:100%;border:0;pointer-events:none}
+.media.playing iframe{pointer-events:auto}
+.media video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;background:#0d0d0f;opacity:0;transition:opacity .4s}
+.media video.on,.media.playing video{opacity:1}
+.media.clip.playing video{object-fit:contain;background:#000}
+.media.broken::after{content:"Clip file not found";position:absolute;inset:auto .8rem .8rem;padding:.4rem .6rem;border-radius:7px;background:rgba(10,10,12,.85);color:var(--mute);font:700 .75rem/1.2 var(--body)}
+.hit{position:absolute;inset:0;z-index:1;display:grid;place-items:center;cursor:pointer}
+.badge{display:grid;place-items:center;width:3.4rem;height:3.4rem;border:1px solid rgba(255,255,255,.28);border-radius:50%;background:rgba(15,15,18,.55);-webkit-backdrop-filter:blur(6px);backdrop-filter:blur(6px);color:#fff;transition:transform .25s cubic-bezier(.22,1,.36,1),background .2s,border-color .2s}
+.badge svg{width:15px;height:15px}
+.hit:hover .badge,.hit:focus-visible .badge{transform:scale(1.08);background:var(--accent);border-color:var(--accent)}
+.media.playing .hit{display:none}
+/* while a preview is playing, the button only shows on hover (always on touch screens) so it doesn't cover the gameplay */
+@media(hover:hover){
+  .media:has(video.on) .badge,.media:has(.vp.on) .badge{opacity:0;transform:scale(.85)}
+  .media:hover .badge,.hit:focus-visible .badge{opacity:1;transform:none}
+}
+.badge{transition:transform .25s cubic-bezier(.22,1,.36,1),background .2s,border-color .2s,opacity .25s}
+.media.empty{display:grid;place-items:center;background:repeating-linear-gradient(135deg,rgba(0,0,0,.22) 0 14px,rgba(0,0,0,.12) 14px 28px)}
+.media.empty .msg{padding:1rem;color:rgba(255,255,255,.8);font:800 .72rem/1.5 var(--body);letter-spacing:.16em;text-transform:uppercase;text-align:center}
+button.media.empty{cursor:pointer}
+.note{position:absolute;z-index:2;left:.8rem;right:.8rem;top:.8rem;padding:.6rem .8rem;border-radius:8px;background:rgba(10,10,12,.86);color:var(--text);font:600 .8rem/1.45 var(--body)}
+.note a{color:var(--accent-2)}
+
+/* ---------- Standalone systems: a grid of cards ---------- */
+.sgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,330px),1fr));gap:1.2rem}
+.scard{position:relative;display:flex;flex-direction:column;padding:.75rem .75rem 1.3rem;border:1px solid var(--line2);border-radius:var(--r);background:var(--card);transition:border-color .25s,transform .3s cubic-bezier(.22,1,.36,1)}
+.scard:hover,.scard:focus-within{border-color:rgba(139,92,246,.6);transform:translateY(-3px)}
+.scard .media{border-radius:10px}
+.scard .body{display:flex;flex-direction:column;flex:1;padding:1.05rem .5rem 0}
+.scard .lab{color:var(--dim);font:800 .7rem/1.2 var(--body);letter-spacing:.14em;text-transform:uppercase}
+.scard h3{margin-top:.5rem;font-size:1.22rem}
+.scard h3 button{font:inherit;letter-spacing:inherit}
+.scard h3 button::after{content:"";position:absolute;inset:0;border-radius:var(--r)}   /* the whole card is clickable */
+.scard .media .hit{z-index:2}
+.scard p{margin-top:.5rem;color:var(--mute);font-size:.92rem}
+.scard .chips{margin-top:auto;padding-top:1rem}
+
+/* ---------- Skills: cards in two columns of different heights ---------- */
+.skills{columns:2 340px;column-gap:1.2rem}
+.skill{break-inside:avoid;margin-bottom:1.2rem;padding:1.35rem 1.45rem 1.45rem;border:1px solid var(--line2);border-radius:var(--r);background:var(--card)}
+.skill h3{font-size:1.12rem}
+.skill p{margin-top:.4rem;color:var(--mute);font-size:.92rem}
+.skill .chips{margin-top:1rem}
+
+/* ---------- Contact ---------- */
+.cta{text-align:center}
+.cta h2{max-width:19ch;margin:0 auto;font-size:clamp(2rem,1.2rem + 2.8vw,3.5rem);letter-spacing:-.035em;text-wrap:balance}
+.btn{display:inline-flex;align-items:center;gap:.8rem;padding:1rem 1.5rem;border-radius:10px;background:var(--accent);color:#fff;font:700 1.04rem/1 var(--body);text-decoration:none;box-shadow:0 14px 32px -16px rgba(139,92,246,.9);transition:filter .2s,transform .15s}
+.btn svg{width:19px;height:19px}
+.btn:hover{filter:brightness(1.1);transform:translateY(-1px)}
+.meta{display:flex;justify-content:center;flex-wrap:wrap;gap:1rem 3rem;margin-top:3rem}
+.meta dt{color:var(--dim);font:800 .7rem/1.4 var(--body);letter-spacing:.14em;text-transform:uppercase}
+.meta dd{margin-top:.25rem;font-weight:600}
+footer.site{padding:2rem 0 2.4rem;border-top:1px solid var(--rule);text-align:center}
+.icons{display:flex;justify-content:center;gap:.6rem}
+.icons a,.icons button{position:relative;display:grid;place-items:center;width:2.5rem;height:2.5rem;border-radius:9px;color:var(--mute);transition:color .2s,background .2s}
+.icons svg{width:20px;height:20px}
+.icons a:hover,.icons button:hover,.icons a:focus-visible,.icons button:focus-visible{color:var(--accent-2);background:rgba(139,92,246,.12)}
+.icons [data-tip]::after{content:attr(data-tip);position:absolute;bottom:calc(100% + 6px);left:50%;transform:translateX(-50%);padding:.3rem .55rem;border-radius:6px;background:var(--accent);color:#fff;font:700 .72rem/1 var(--body);white-space:nowrap;opacity:0;pointer-events:none;transition:opacity .2s}
+.icons [data-tip]:hover::after,.icons [data-tip]:focus-visible::after{opacity:1}
+.made{margin-top:.7rem;font:700 .88rem/1.4 var(--display)}
+.made i{color:#ef4444;font-style:normal}
+.upd{margin-top:.3rem;color:var(--dim);font-size:.8rem}
+
+/* ---------- Project / system page ---------- */
+html.po-open{overflow:hidden}
+.po{position:fixed;inset:0;width:100%;height:100%;max-width:none;max-height:none;margin:0;padding:0;border:0;color:var(--text);overflow-y:auto;overscroll-behavior:contain}
+.po:focus{outline:none}
+.po::backdrop{background:#0c0c0e}
+.po-bar{position:sticky;top:0;z-index:5;display:grid;grid-template-columns:1fr auto 1fr;align-items:center;gap:1rem;height:var(--po-h);padding-inline:clamp(1rem,3.4vw,3rem);background:rgba(22,22,24,.84);-webkit-backdrop-filter:blur(14px);backdrop-filter:blur(14px);border-bottom:1px solid var(--rule)}
+.po-back{justify-self:start;display:inline-flex;align-items:center;gap:.6rem;padding:.5rem 0;font:700 .95rem/1 var(--body)}
+.po-back svg{width:14px;height:14px;color:var(--accent-2);transition:transform .25s cubic-bezier(.22,1,.36,1)}
+.po-back:hover svg,.po-back:focus-visible svg{transform:translateX(-3px)}
+.po-crumb{min-width:0;overflow:hidden;color:var(--mute);font:600 .88rem/1 var(--body);text-overflow:ellipsis;white-space:nowrap}
+.po-crumb b{color:var(--text)}
+.po-x{justify-self:end;display:grid;place-items:center;width:40px;height:40px;border:1px solid var(--line2);border-radius:10px;transition:background .2s,border-color .2s}
+.po-x svg{width:13px;height:13px}
+.po-x:hover,.po-x:focus-visible{background:var(--accent);border-color:var(--accent)}
+/* top: label, title, one line, tags, then the big full-loop video */
+.po-top{padding-block:clamp(2.4rem,6vw,4rem) clamp(1.8rem,4vw,2.6rem);text-align:center}
+.po-top .eyebrow{color:var(--mute)}
+.po-top h1{margin-top:.8rem;font-size:clamp(2.4rem,1.4rem + 3.6vw,4.4rem);line-height:1.02;letter-spacing:-.04em;overflow-wrap:anywhere}
+.po-about{max-width:52ch;margin:1rem auto 0;color:var(--mute);font-size:1.04rem;text-wrap:balance}
+.po-top .chips{justify-content:center}
+.links{display:flex;justify-content:center;flex-wrap:wrap;gap:.4rem 1.6rem;margin-top:1rem}
+.links a{display:inline-flex;align-items:center;gap:.5rem;font:700 .92rem/1.4 var(--body);text-decoration:none;color:var(--accent-2)}
+.links a svg{width:12px;height:12px}
+.links a:hover{text-decoration:underline;text-underline-offset:4px}
+.po-demo{margin:0 auto}
+.po-demo .media{border-radius:18px;box-shadow:0 0 0 1px var(--line2),0 40px 80px -40px rgba(139,92,246,.45)}
+.po-big .pcard,.sysb .pcard{grid-area:auto}
+/* what's inside: one coloured tile per system, click to jump to it */
+.map{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,210px),1fr));gap:1rem}
+.map button{display:flex;flex-direction:column;align-items:flex-start;gap:.5rem;width:100%;min-height:8.6rem;padding:1.15rem 1.25rem;border-radius:var(--r);background:var(--c);color:#fff;text-shadow:0 1px 3px rgba(0,0,0,.18);transition:transform .3s cubic-bezier(.22,1,.36,1),box-shadow .3s}
+.map button:hover,.map button:focus-visible{transform:translateY(-4px);box-shadow:0 18px 36px -20px var(--c)}
+.map .n{font:800 .72rem/1 var(--body);letter-spacing:.16em;opacity:.9}
+.map b{font:700 1.3rem/1.15 var(--display);letter-spacing:-.02em}
+.map small{display:inline-flex;align-items:center;gap:.4rem;margin-top:auto;font:700 .82rem/1 var(--body)}
+.map small svg{width:12px;height:12px}
+/* the game loop: steps in a row with arrows, then "repeat" */
+.loop{display:flex;flex-wrap:wrap;justify-content:center;align-items:center;gap:.7rem}
+.loop .step{display:inline-flex;align-items:center;gap:.6rem;padding:.8rem 1.15rem;border:1px solid var(--line2);border-radius:11px;background:var(--card);font:700 1rem/1.2 var(--body)}
+.loop .step span{color:var(--accent-2);font-size:.72rem;font-variant-numeric:tabular-nums}
+.loop .arr{color:var(--dim)}
+.loop .arr svg{width:14px;height:14px}
+.loop .again{display:inline-flex;align-items:center;gap:.45rem;margin-left:.3rem;color:var(--accent-2);font:700 .85rem/1 var(--body)}
+.loop .again svg{width:16px;height:16px}
+/* one block per system: its name, its own clip (if any), then its parts as small clips */
+.sysb{scroll-margin-top:calc(var(--po-h) + 1.5rem)}
+.sysb+.sysb{margin-top:clamp(3.6rem,8vw,6rem)}
+/* jump tiles: one per system, in its colour */
+.jump{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,240px),1fr));gap:1rem;max-width:920px;margin:0 auto}
+.jump a{display:flex;align-items:center;gap:.95rem;padding:1rem 1.1rem;border:1px solid color-mix(in srgb,var(--c) 45%,transparent);border-radius:14px;background:color-mix(in srgb,var(--c) 10%,var(--card));text-decoration:none;transition:transform .3s cubic-bezier(.22,1,.36,1),border-color .2s,background .2s}
+.jump a:hover,.jump a:focus-visible{transform:translateY(-3px);border-color:var(--c);background:color-mix(in srgb,var(--c) 18%,var(--card))}
+.jump i{display:grid;place-items:center;width:2.7rem;height:2.7rem;flex:none;border-radius:10px;background:var(--c);color:#17171a}
+.jump i svg{width:20px;height:20px}
+.jump span{display:flex;flex-direction:column;gap:.15rem;min-width:0}
+.jump b{font:700 1.05rem/1.2 var(--display)}
+.jump small{color:var(--mute);font-weight:600;font-size:.82rem}
+.jump>a>svg{margin-left:auto;color:var(--c)}
+/* each system is its own band: a coloured line on top, a soft wash of its colour, a big icon and its name in colour */
+/* the systems area: a bit wider than the rest of the page, timeline on the left, one panel per system on the right */
+#systems>.wrap{max-width:1240px}
+.syswrap{display:grid;gap:clamp(1.4rem,3vw,2.2rem)}
+.panels{display:grid;gap:clamp(1.6rem,3vw,2.4rem)}
+/* each system is a panel in its colour: a soft tint at the top, a coloured edge */
+.sysband{position:relative;padding:clamp(1.3rem,2.6vw,2.2rem);border:1px solid color-mix(in srgb,var(--c) 32%,transparent);border-top:3px solid var(--c);border-radius:22px;background:linear-gradient(180deg,color-mix(in srgb,var(--c) 11%,var(--card)) 0,var(--card) 260px);scroll-margin-top:calc(var(--bar-h) + 1.2rem)}
+/* timeline across the top: a circle per system with its name to the right, joined by a line.
+   It stays just under the menu while you scroll through the systems, and the line fills in as you go. */
+.tl-col{position:sticky;top:var(--bar-h);z-index:6;margin-inline:calc(50% - 50vw);padding:.85rem calc(50vw - 50%);background:rgba(27,27,30,.88);-webkit-backdrop-filter:blur(12px);backdrop-filter:blur(12px);border-block:1px solid var(--line2)}
+.systl ol{display:flex;align-items:center;max-width:900px;margin:0 auto;list-style:none}
+.systl li{display:flex;align-items:center;min-width:0}
+.systl li:not(:last-child){flex:1}
+.systl li:not(:last-child)::after{content:"";flex:1;min-width:1.2rem;height:2px;margin:0 clamp(.7rem,2vw,1.4rem);border-radius:2px;background:linear-gradient(90deg,var(--c) var(--p,0%),var(--line2) var(--p,0%))}
+.systl a{display:flex;align-items:center;gap:.7rem;flex:none;text-decoration:none;color:var(--mute);transition:color .2s}
+.systl .dot{width:18px;height:18px;flex:none;border:2px solid var(--c);border-radius:50%;background:var(--bg2);transition:background .25s,box-shadow .25s,transform .25s}
+.systl span{display:flex;flex-direction:column;gap:.15rem}
+.systl b{font:700 .98rem/1.15 var(--display);letter-spacing:-.01em;white-space:nowrap}
+.systl small{color:var(--dim);font-weight:600;font-size:.76rem}
+.systl a:hover{color:var(--text)}
+.systl a:hover .dot{transform:scale(1.12)}
+.systl li.done .dot{background:color-mix(in srgb,var(--c) 55%,var(--bg2))}
+.systl li.on a{color:var(--text)}
+.systl li.on .dot{background:var(--c);box-shadow:0 0 0 5px color-mix(in srgb,var(--c) 22%,transparent),0 0 18px var(--c);transform:scale(1.1)}
+.systl li.on small{color:var(--c)}
+.sysband{scroll-margin-top:calc(var(--bar-h) + 5.6rem)}
+/* phones: names under the circles, no part counts */
+@media(max-width:640px){
+  .tl-col{padding-block:.7rem}
+  .systl li{align-items:flex-start}
+  .systl li:not(:last-child)::after{margin:8px .5rem 0;min-width:.8rem}
+  .systl a{flex-direction:column;gap:.4rem;max-width:6.5rem;text-align:center}
+  .systl span{align-items:center}
+  .systl b{font-size:.78rem;white-space:normal}
+  .systl small{display:none}
+  .sysband{scroll-margin-top:calc(var(--bar-h) + 5rem)}
+}
+.band-head{display:flex;align-items:center;gap:clamp(1rem,2vw,1.4rem);margin-bottom:clamp(1.4rem,3vw,2rem)}
+.band-icon{display:grid;place-items:center;width:clamp(3.4rem,5vw,4.2rem);aspect-ratio:1;flex:none;border-radius:16px;background:var(--c);color:#17171a;box-shadow:0 14px 34px -14px var(--c)}
+.band-icon svg{width:46%;height:46%}
+.band-n{color:var(--c);font:800 .74rem/1 var(--body);letter-spacing:.18em;text-transform:uppercase}
+.band-head h2{margin-top:.35rem;font-size:clamp(1.8rem,1.2rem + 1.8vw,2.7rem);letter-spacing:-.035em}
+.band-txt{margin-top:.35rem;color:var(--mute)}
+.sysband .part h3::before{content:"";display:inline-block;width:8px;height:8px;margin-right:.55rem;border-radius:2px;background:var(--c);transform:rotate(15deg) translateY(-2px)}
+.sysband .part h3{justify-content:flex-start}
+.sysband .part h3 small{margin-left:auto}
+@media(max-width:600px){.band-side>small{display:none}.band-head{flex-wrap:wrap}.band-side{margin-left:0;width:100%}}
+/* big clips on the home page: two per row; with an odd number, the last one runs full width */
+.sysband .parts{grid-template-columns:repeat(2,minmax(0,1fr));gap:clamp(1.6rem,3vw,2.4rem) clamp(1rem,2vw,1.6rem)}
+.sysband .part:last-child:nth-child(odd){grid-column:1/-1}
+.sysband .part .media{border-radius:16px}
+.sysband .part h3{margin-top:.9rem;font-size:clamp(1.1rem,.95rem + .5vw,1.4rem)}
+.sysband .part h3 small{font-size:.78rem}
+.sysband .badge{width:4.2rem;height:4.2rem}
+.sysband .badge svg{width:18px;height:18px}
+@media(max-width:700px){
+  .sysband .parts{grid-template-columns:1fr}
+  .sysband .part h3{flex-direction:row;align-items:baseline}
+}
+.sysb-head{display:flex;align-items:center;gap:.9rem;margin-bottom:1.4rem}
+.sysb-head .dot{width:14px;height:14px;flex:none;border-radius:4px;background:var(--c);transform:rotate(15deg)}
+.sysb-head .n{color:var(--dim);font:800 .78rem/1 var(--body);letter-spacing:.16em}
+.sysb-head h2{font-size:clamp(1.7rem,1.2rem + 1.6vw,2.5rem);letter-spacing:-.03em}
+.sysb-head small{color:var(--dim);font-weight:700;white-space:nowrap}
+.sysb-head::after{content:"";flex:1;height:1px;margin-left:.6rem;background:var(--line2)}
+.sysb>.pcard{max-width:900px;margin-bottom:1.2rem}
+.parts{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,240px),1fr));gap:1.1rem 1rem}
+.part .media{border-radius:12px;box-shadow:inset 0 0 0 1px var(--line2);transition:box-shadow .2s,transform .3s cubic-bezier(.22,1,.36,1)}
+.part:hover .media{box-shadow:0 0 0 2px var(--c);transform:translateY(-2px)}
+.part h3{display:flex;align-items:baseline;justify-content:space-between;gap:.6rem;margin-top:.7rem;font-size:1.02rem}
+.part h3 small{color:var(--dim);font:700 .72rem/1 var(--body);letter-spacing:.06em;white-space:nowrap}
+.po-foot{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:1.2rem 2rem;padding-block:2.2rem 3rem;border-top:1px solid var(--rule)}
+.po-next{display:flex;flex-direction:column;align-items:flex-end;gap:.35rem;margin-left:auto;text-align:right;text-decoration:none}
+.po-next small{color:var(--dim)}
+.po-next b{display:inline-flex;align-items:center;gap:.7rem;font:700 clamp(1.25rem,1rem + 1vw,1.75rem)/1.15 var(--display);letter-spacing:-.02em}
+.po-next b svg{width:15px;height:15px;color:var(--accent-2);transition:transform .25s cubic-bezier(.22,1,.36,1)}
+.po-next:hover b svg,.po-next:focus-visible b svg{transform:translateX(4px)}
+
+/* ---------- The little R6 character with a quarterstaff that follows the mouse.
+   It sits under the page content, so it slips behind solid blocks (the Projects section, cards) and pops back out after. ---------- */
+.buddy{--s:54px;position:fixed;left:0;top:0;z-index:1;width:var(--s);height:var(--s);margin:calc(var(--s)/-2) 0 0 calc(var(--s)/-2);pointer-events:none;opacity:0;transition:opacity .4s;will-change:transform}
+.buddy.on{opacity:1}
+.buddy svg{width:100%;height:100%;animation:spin 7s linear infinite}
+@keyframes spin{to{transform:rotate(-360deg)}}
+@media(hover:none),(pointer:coarse),(prefers-reduced-motion:reduce),print{.buddy{display:none}}
+
+/* ---------- Things fade up as they scroll in ---------- */
+@media(prefers-reduced-motion:no-preference){
+  .js .rv{opacity:0;transform:translateY(18px);transition:opacity .7s ease,transform .8s cubic-bezier(.22,1,.36,1)}
+  .js .rv.in{opacity:1;transform:none}
+  .hero>div>*{animation:rise .8s cubic-bezier(.2,.7,.2,1) both}
+  .hero>div>:nth-child(2){animation-delay:.08s}
+  .hero>div>:nth-child(3){animation-delay:.16s}
+  .hero>div>:nth-child(4){animation-delay:.24s}
+  .hero>div>:nth-child(5){animation-delay:.32s}
+  @keyframes rise{from{opacity:0;transform:translateY(.5em)}}
+  .explore svg{animation:bob 1.8s ease-in-out infinite}
+  @keyframes bob{50%{transform:translateY(3px)}}
+  .po[open]{animation:po-in .38s cubic-bezier(.2,.7,.2,1)}
+  @keyframes po-in{from{opacity:0;transform:translateY(22px)}}
+}
+@media(prefers-reduced-motion:reduce){
+  html{scroll-behavior:auto}
+  *{transition:none!important}
+}
+
+/* ---------- Smaller screens ---------- */
+@media(max-width:900px){
+  .career{grid-template-columns:1fr}
+  .c-right{display:none}
+  .career.live .c-item{opacity:1}
+  .c-list{gap:3.6rem;padding-bottom:0}
+  .pcard.inline{display:flex;margin-top:1.5rem;opacity:1;visibility:visible;transform:none}
+}
+@media(max-width:600px){
+  .parts{grid-template-columns:1fr 1fr;gap:1rem .7rem}
+  .part h3{flex-direction:column;align-items:flex-start;gap:.25rem;font-size:.92rem}
+  .sysb-head small{display:none}
+  .po-crumb{display:none}
+  .po-bar{grid-template-columns:1fr auto}
+}
+@media(max-width:860px){
+  .bar{grid-template-columns:1fr auto}
+  .nav{display:none}
+}
+@media(max-width:520px){
+  :root{--bar-h:64px}
+  .topcta{padding-left:0;border-left:0}
+  .lbl{display:none}
+}
+</style>
+</head>
+<body>
+<a class="skip" href="#systems">Skip to my systems</a>
+<div id="app"></div>
+<div class="vh" id="live" role="status"></div>
+<div class="buddy" id="buddy" aria-hidden="true"><svg viewBox="0 0 110 110" focusable="false">
+<g stroke="#0c0b08" stroke-width="4" stroke-linejoin="round">
+<rect x="37" y="68" width="17" height="34" rx="2" fill="#a4bd47"/>
+<rect x="56" y="68" width="17" height="34" rx="2" fill="#93ab3c"/>
+<rect x="22" y="34" width="14" height="33" rx="2" fill="#f5cd30"/>
+<rect x="36" y="33" width="38" height="36" rx="2" fill="#1f6fc4"/>
+<line x1="100" y1="6" x2="62" y2="106" stroke-width="12" stroke-linecap="round"/>
+<line x1="100" y1="6" x2="62" y2="106" stroke="#a0683a" stroke-width="5" stroke-linecap="round"/>
+<line x1="98" y1="11" x2="94" y2="21" stroke="#d9dee4" stroke-width="5" stroke-linecap="butt"/>
+<line x1="68" y1="90" x2="64" y2="100" stroke="#d9dee4" stroke-width="5" stroke-linecap="butt"/>
+<rect x="74" y="34" width="14" height="33" rx="2" fill="#f5cd30"/>
+<rect x="41" y="7" width="28" height="25" rx="7" fill="#f5cd30"/>
+</g>
+<rect x="48" y="15" width="4" height="5" rx="1" fill="#0c0b08"/><rect x="58" y="15" width="4" height="5" rx="1" fill="#0c0b08"/>
+<path d="M48 24q7 5 14 0" fill="none" stroke="#0c0b08" stroke-width="2.4" stroke-linecap="round"/>
+</svg></div>
+<noscript><p class="wrap" style="padding-top:2rem">This portfolio needs JavaScript. Email me at soumayanegi612@gmail.com instead.</p></noscript>
+<script>
+/* ===================== EDIT EVERYTHING HERE ===================== */
+const SITE = {
+  name: "Soumaya",
+  role: "Roblox Scripter",
+  location: "",   // the small line above the headline ("Based in ..."). "" hides it.
+  headline: "Hi, I’m *Soumaya*",   // the big line in the opening. Words between *stars* get the purple gradient.
+  intro: "A Roblox scripter with a year of experience building combat, abilities and game systems the server can trust.",   // the line under it
+  available: true,
+  availableText: "Open for commissions",
+  busyText: "Fully booked right now",
+  cv: "",   // a link to your CV, or a file name next to index.html (e.g. "cv.pdf"). Empty: the second button says Hire me.
+
+  contact: {
+    email: "soumayanegi612@gmail.com",
+    discord: "_soumaya_",
+    discordId: "",   // optional: your numeric Discord user ID adds an "Open Discord" link
+    roblox: "",      // optional: your Roblox profile link
+    devforum: "",    // optional: your DevForum profile link
+    github: ""       // optional: your GitHub (code reviewers like to see real code)
+  },
+  reply: "Within 24 hours",
+  hours: "UTC+5:30",
+  payment: "PayPal or Robux through a group payout",
+
+  reel: { clip: "clips/reel.mp4", poster: "clips/reel.jpg", caption: "Highlight reel · click for sound" },   // plays in the opening. clip: "" hides it.
+  systemsSection: { title: "Systems", intro: "Every system from Untitled Battlegrounds. Click a clip to watch it with sound." },
+  myRole: "Built solo: all the scripting, UI and animation.",   // MAKE THIS EXACTLY TRUE. If a teammate built a part, say so, e.g. "Combat and states by me; menu art by a friend."
+  proof: [   // optional numbers shown under "My role", e.g. { n: "1.2K", label: "visits" }. Only real numbers.
+  ],
+  vouches: [   // optional quotes from people you've worked with: { quote: "...", who: "Name, role", link: "" }. Hidden while empty.
+  ],
+  projectsSection: { title: "Projects", lead: "", intro: "" },
+  projects: [
+    /* ----- A PROJECT = a whole game, start to end.
+       Home card:  title, label, when, blurb (one line), tags, card (the line on the coloured card), color, yt (the full-loop video).
+       Its page:   about (one line), loop (the game loop, step by step), then systems.
+       A SYSTEM (UI, Combat, ...): { title, color, clip or yt (optional: a video of the whole system), parts }.
+       A PART (Impact, Validation, ...): { title, label (optional small tag), clip }.
+       VIDEOS: clip = a short video file in the clips folder, e.g. "clips/impact.mp4" (add poster: "clips/impact.jpg" for a still
+       before it loads, optional). yt = a YouTube link for long videos. Only names and videos are shown, no long text. ----- */
+    {
+      title: "Untitled Battlegrounds",
+      label: "Solo build · Full game",
+      when: "Oct 2026 – Now",
+      blurb: "A full PvP battlegrounds game, from the menu to the final blow and back.",
+      tags: ["UI","Combat","States","Animation"],
+      card: "",   // optional line on the coloured card on the home page
+      color: "#c49bf0",
+      clip: "clips/full-demo.mp4", poster: "clips/full-demo.jpg",   // the full demo (or put it on YouTube and use yt: "link" instead)
+      yt: "",
+      link: "",   // your Roblox game page (optional)
+      about: "Pick a weapon, fight, respawn, back to the menu. Every hit and cooldown checked by the server.",
+      loop: ["Menu","Pick a weapon","Fight","Respawn"],
+      systems: [
+        { title:"Combat system", icon:"combat", text:"Attacks, abilities, parry and the server checks behind them.", color:"#ee97ae", code:"",   // code: a GitHub link adds a "View code" button
+          parts:[
+          { title:"M1 combo", cap:"Every swing goes through the server validator.", clip:"clips/m1-combo.mp4", poster:"clips/m1-combo.jpg" },
+          { title:"Abilities", label:"E · R · X · C", cap:"Dash slam, throw and blink, area stun, pin finisher.", clip:"clips/abilities.mp4", poster:"clips/abilities.jpg" },
+          { title:"Parry and stuns", cap:"A newer stun replaces the old one, on purpose.", clip:"clips/parry-stuns.mp4", poster:"clips/parry-stuns.jpg" },
+          { title:"Server checks", label:"Hitboxes · cooldowns", cap:"Server-side hitboxes; cooldowns checked on client and server.", clip:"clips/server-checks.mp4", poster:"clips/server-checks.jpg" }
+        ]},
+        { title:"UI system", icon:"ui", text:"Menus, the play transition and the in-game HUD.", color:"#9db7dd", parts:[
+          { title:"Menu and weapon select", cap:"Weapon stats update live as you switch. Redeem codes.", clip:"clips/menu.mp4", poster:"clips/menu.jpg" },
+          { title:"Play transition", cap:"Tweened menu exit straight into the spawn.", clip:"clips/play-transition.mp4", poster:"clips/play-transition.jpg" },
+          { title:"HUD and combo counter", cap:"Health, live ability cooldowns and a hit counter.", clip:"clips/hud-combo.mp4", poster:"clips/hud-combo.jpg" }
+        ]},
+        { title:"Player states", icon:"states", text:"Moving around, and getting back to the menu.", color:"#97c79b", parts:[
+          { title:"Run and walk", cap:"Its own movement state machine.", clip:"clips/run-and-walk.mp4", poster:"clips/run-and-walk.jpg" },
+          { title:"Respawn to menu", cap:"Back to the menu; fresh cooldowns on the next Play.", clip:"clips/respawn-to-menu.mp4", poster:"clips/respawn-to-menu.jpg" }
+        ]}
+      ]
+    }
+  ],
+  /* Old cards from the previous site are now the "Systems collection" project above. */
+
+  skillsSection: { title: "Skills" },
+  skills: [   // only what your clips prove. see: which system shows it (sys-0 = Combat, sys-1 = UI, sys-2 = States)
+    { title:"Combat and abilities", text:"Combos, stuns, parry and four flashy abilities.", items:["Combat systems","Abilities","Hitboxes","Parry and stuns"], see:"sys-0" },
+    { title:"Server-side code", text:"The client asks, the server decides.", items:["Server validation","Raycast hits","Cooldowns","Networking"], see:"sys-0" },
+    { title:"UI", text:"Menus and HUDs that read at a glance.", items:["Menus","HUDs","Tweening","UI programming"], see:"sys-1" },
+    { title:"States and movement", text:"One clear state for the player at all times.", items:["State machines","Movement","Respawn flow"], see:"sys-2" },
+    { title:"Animation", text:"Moves keyed in Blender on an R6 rig, with markers that tell the code when a hit lands.", items:["Blender","R6 rigs","Animation events"], see:"sys-0" }
+  ],
+
+
+  contactSection: {
+    title: "Like what you see? *Let’s build* your next system.",   // *stars* = purple gradient
+    text: "Tell me what you need, your deadline and your budget."
+  },
+  pageHeadings: { inside: "What’s inside", loop: "The game loop" },
+  updated: "Nov 2026"
+};
+/* ===================== END OF EDIT BLOCK ===================== */
+
+document.documentElement.classList.add("js");
+const S=SITE,C=S.contact||{};
+const e=s=>String(s??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+const url=s=>{s=String(s||"").trim();return /^(https?:|mailto:)/i.test(s)?s:"https://"+s};
+const vid=s=>{s=String(s||"").trim();const m=s.match(/(?:v=|youtu\.be\/|embed\/|shorts\/|live\/)([\w-]{11})/);return m?m[1]:/^[\w-]{11}$/.test(s)?s:""};
+const points=v=>Array.isArray(v)?v:String(v||"").split(",").map(x=>x.trim()).filter(Boolean);
+const nn=k=>String(k+1).padStart(2,"0");
+/* words between *stars* get the gradient; hyphenated words never split across lines */
+const accent=t=>e(t).replace(/([\w'’]+(?:-[\w'’]+)+)/g,'<span class="nb">$1</span>').replace(/\*([^*]+)\*/g,'<em class="grad">$1</em>');
+const svg=(w,h,d,a)=>`<svg width="${w}" height="${h}" viewBox="0 0 ${w} ${h}" aria-hidden="true" ${a||'fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"'}>${d}</svg>`;
+const I={
+  chev:svg(14,14,'<path d="M5 2.5 9.5 7 5 11.5"/>'),
+  down:svg(14,14,'<path d="M7 2v10M2.5 7.5 7 12l4.5-4.5"/>'),
+  again:svg(16,16,'<path d="M13.5 8a5.5 5.5 0 1 1-1.6-3.9M13.5 2.5v3h-3"/>'),
+  right:svg(14,14,'<path d="M2 7h10M7.5 2.5 12 7l-4.5 4.5"/>'),
+  ui:svg(24,24,'<rect x="3" y="4" width="18" height="16" rx="2.5"/><path d="M3 9h18M7 13h7M7 16h4"/>'),
+  combat:svg(24,24,'<path d="M14.5 17.5 3 6V3h3l11.5 11.5M13 19l6-6M16 16l4 4M19 21l2-2"/><path d="M9.5 6.5 6 3H3v3l3.5 3.5M5 14l4 4M7 17l-3 3M3 19l2 2"/>'),
+  states:svg(24,24,'<path d="M21 12a9 9 0 1 1-2.6-6.4L21 8M21 3v5h-5"/><circle cx="12" cy="12" r="2.6"/>'),
+  code:svg(20,20,'<path d="M7 6 2.5 10 7 14M13 6l4.5 4L13 14M11.2 4.5 8.8 15.5"/>','fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"'),
+  left:svg(14,14,'<path d="M12 7H2M6.5 2.5 2 7l4.5 4.5"/>'),
+  up:svg(14,14,'<path d="M3.5 10.5 10.5 3.5M5 3.5h5.5V9"/>'),
+  close:svg(14,14,'<path d="M2 2l10 10M12 2 2 12"/>'),
+  play:svg(14,16,'<path d="M1 1l12 7-12 7z"/>','fill="currentColor"'),
+  mail:svg(20,20,'<rect x="2.5" y="4.5" width="15" height="11" rx="2"/><path d="m3 5.5 7 5.5 7-5.5"/>','fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"'),
+  dl:svg(20,20,'<path d="M10 3v10M5.5 8.5 10 13l4.5-4.5M3.5 14.5V17h13v-2.5"/>','fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"'),
+  chat:svg(20,20,'<path d="M4 4.5h12a1.5 1.5 0 0 1 1.5 1.5v7a1.5 1.5 0 0 1-1.5 1.5H9l-3.5 3v-3H4A1.5 1.5 0 0 1 2.5 13V6A1.5 1.5 0 0 1 4 4.5z"/><circle cx="7.5" cy="9.5" r=".6" fill="currentColor"/><circle cx="12.5" cy="9.5" r=".6" fill="currentColor"/>','fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"'),
+  roblox:svg(20,20,'<rect x="4" y="4" width="12" height="12" rx="1.5" transform="rotate(15 10 10)"/><rect x="8.4" y="8.4" width="3.2" height="3.2" transform="rotate(15 10 10)" fill="currentColor" stroke="none"/>','fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"'),
+  forum:svg(20,20,'<path d="M3 5.5A1.5 1.5 0 0 1 4.5 4h8A1.5 1.5 0 0 1 14 5.5v5a1.5 1.5 0 0 1-1.5 1.5H8l-3 2.5V12h-.5A1.5 1.5 0 0 1 3 10.5z"/><path d="M14 7.5h1.5A1.5 1.5 0 0 1 17 9v5a1.5 1.5 0 0 1-1.5 1.5H15V18l-3-2.5H9"/>','fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"'),
+  doc:svg(20,20,'<path d="M5 2.5h7l3.5 3.5v11.5H5z"/><path d="M12 2.5V6h3.5M7.5 10h5M7.5 13h5"/>','fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"')
+};
+
+/* every project; a card's data-open is its place in this list */
+const ENTRIES=(S.projects||[]).map(d=>({d,kind:"p"}));
+const nP=(S.projects||[]).length;
+const allSys=(S.projects||[]).flatMap(p=>p.systems||[]);   /* every system, straight on the home page */
+const REEL=Object.assign({clip:"",yt:"",poster:"",caption:""},S.reel||{});
+const gameLink=((S.projects||[])[0]||{}).link?url(S.projects[0].link):"";
+const SYS=Object.assign({title:"Systems",intro:""},S.systemsSection||{});
+const COLORS=["#9db7dd","#ee97ae","#c49bf0","#97c79b","#e9b27c","#8fc3cf"];   /* coloured cards cycle through these unless color is set */
+const colorOf=(d,k)=>d.color||COLORS[k%COLORS.length];
+const slugify=t=>String(t||"").toLowerCase().normalize("NFKD").replace(/[\u0300-\u036f]/g,"").replace(/[^a-z0-9]+/g,"-").replace(/^-+|-+$/g,"")||"item";
+const SLUGS=[];
+ENTRIES.forEach(x=>{let s=slugify(x.d.title),k=2;while(SLUGS.includes(s))s=slugify(x.d.title)+"-"+k++;SLUGS.push(s)});
+
+/* pieces */
+const thumb=id=>`background-image:url(https://i.ytimg.com/vi/${id}/maxresdefault.jpg),url(https://i.ytimg.com/vi/${id}/hqdefault.jpg)`;
+/* a video: a clip file (clip: "clips/x.mp4") or a YouTube video (yt: link). open = the card's place in ENTRIES
+   (clicking opens its page); otherwise clicking plays it with sound. Either way it plays by itself, muted and looping, while it's on screen. */
+const media=(d,open)=>{
+  const id=vid(d.yt)||vid(d.link),clip=String(d.clip||"").trim();
+  const act=open!==undefined?`data-open="${open}" aria-label="Open ${e(d.title)}"`:`data-play aria-label="Play ${e(d.title)} with sound"`;
+  const hit=`<button class="hit" type="button" ${act}><span class="badge">${open!==undefined?I.up:I.play}</span></button>`;
+  if(clip)return `<div class="media auto clip" data-clip="${e(clip)}" data-title="${e(d.title)}"${d.poster?` style="background-image:url('${e(d.poster)}')"`:""}><video muted loop playsinline preload="none"${d.poster?` poster="${e(d.poster)}"`:""}></video>${hit}</div>`;
+  if(!id)return open!==undefined
+    ?`<button class="media empty" type="button" data-open="${open}" aria-label="Open ${e(d.title)}"><span class="msg">Clip coming soon</span></button>`
+    :`<div class="media empty"><span class="msg">Clip coming soon</span></div>`;
+  return `<div class="media auto" data-yt="${id}" data-title="${e(d.title)}" style="${thumb(id)}"><div class="vp"><div></div></div>${hit}</div>`;
+};
+const bul=a=>{a=points(a);return a.length?`<ul class="bul">${a.map(t=>`<li>${e(t)}</li>`).join("")}</ul>`:""};
+const chips=a=>(a||[]).length?`<ul class="chips">${a.map(t=>`<li>${e(t)}</li>`).join("")}</ul>`:"";
+const when=t=>e(t).replace(/\bNow\b/,"<b>Now</b>");
+/* the video a project's home card shows: its own, or else the first system part that has one */
+const cardVid=p=>{
+  if(p.clip||vid(p.yt)||vid(p.link))return p;
+  for(const s of p.systems||[])for(const x of s.parts||[])if(x.clip||vid(x.yt))return Object.assign({},p,{clip:x.clip||"",yt:x.yt||"",poster:x.poster||""});
+  return p;
+};
+const pcard=(d,k,layer,open)=>`<div class="pcard ${layer?"layer":"inline"}${d.card?"":" bare"}" style="--c:${e(colorOf(d,k))}">${d.card?`<h4>${e(d.card)}</h4>`:""}${media(d,open)}</div>`;
+
+/* ---------- the home page ---------- */
+const PS=Object.assign({title:"Projects",lead:"",intro:""},S.projectsSection||{});
+const KS=Object.assign({title:"Skills"},S.skillsSection||{});
+const CS=Object.assign({title:"Get in touch",text:""},S.contactSection||{});
+const status=S.available?(S.availableText||"Available for work"):(S.busyText||"Fully booked");
+const discordOpen=/^\d{15,22}$/.test(String(C.discordId||""));
+
+const projItem=(p,k)=>{
+  const ns=(p.systems||[]).length;
+  return `<article class="c-item">
+    <p class="c-num">${nn(k)} / ${String(nP).padStart(2,"0")}</p>
+    <h3><button type="button" data-open="${k}">${e(p.title)}</button></h3>
+    ${p.label?`<p class="c-role">${e(p.label)}</p>`:""}
+    ${p.when?`<p class="c-when">${when(p.when)}</p>`:""}
+    ${p.blurb?`<p class="c-text">${e(p.blurb)}</p>`:""}
+    ${chips(p.tags)}
+    <button class="go" type="button" data-open="${k}">Open project${ns?` · ${ns} system${ns===1?"":"s"}`:""} ${I.chev}</button>
+    ${pcard(cardVid(p),k,false,k)}
+  </article>`;
+};
+const icons=()=>{
+  let h="";
+  if(C.discord)h+=`<button type="button" data-copy="${e(C.discord)}" data-tip="Discord: ${e(C.discord)} (click to copy)" aria-label="Copy Discord username ${e(C.discord)}">${I.chat}</button>`;
+  if(C.email)h+=`<a href="mailto:${e(C.email)}" data-tip="${e(C.email)}" aria-label="Email ${e(C.email)}">${I.mail}</a>`;
+  if(C.roblox)h+=`<a href="${e(url(C.roblox))}" target="_blank" rel="noopener" data-tip="Roblox profile" aria-label="Roblox profile">${I.roblox}</a>`;
+  if(C.devforum)h+=`<a href="${e(url(C.devforum))}" target="_blank" rel="noopener" data-tip="DevForum profile" aria-label="DevForum profile">${I.forum}</a>`;
+  if(C.github)h+=`<a href="${e(url(C.github))}" target="_blank" rel="noopener" data-tip="GitHub" aria-label="GitHub">${I.code}</a>`;
+  if(S.cv)h+=`<a href="${e(S.cv)}" target="_blank" rel="noopener" data-tip="CV" aria-label="CV">${I.doc}</a>`;
+  return h?`<div class="icons">${h}</div>`:"";
+};
+
+document.title=`${S.name} - ${S.role}`;
+document.getElementById("app").innerHTML=`
+<header class="top"><div class="bar">
+  <a class="brand" href="#top" aria-label="${e(S.name)}, back to top"><span class="bars" aria-hidden="true"><i></i><i></i></span><span class="who"><b>${e(S.name)}</b><small>${e(S.role)}</small></span></a>
+  <nav class="nav" aria-label="Sections"><a href="#top">Home</a>${allSys.length?`<a href="#systems">Systems</a>`:""}<a href="#skills">Skills</a><a href="#contact">Contact</a></nav>
+  <a class="topcta" href="#contact" aria-label="Start a project"><span class="lbl">Start a project</span><span class="sq" aria-hidden="true">${I.up}</span></a>
+</div></header>
+<main id="top">
+<section class="hero"><div class="wrap">
+  <p class="avail${S.available?"":" off"}"><i></i>${e(status)}</p>
+  <h1>${accent(S.headline||S.role)}</h1>
+  ${S.intro?`<p class="sub">${e(S.intro)}</p>`:""}
+  <div class="row"><a class="box" href="#systems">See my work ${I.chev}</a>${S.cv?`<a class="lnk" href="${e(S.cv)}" download>${I.dl}Download CV</a>`:`<a class="lnk" href="#contact">${I.mail}Hire me</a>`}</div>
+  ${REEL.clip||vid(REEL.yt)?`<figure class="reel">${media(Object.assign({title:"Highlight reel"},REEL))}${REEL.caption?`<figcaption>${e(REEL.caption)}</figcaption>`:""}</figure>`:""}
+</div>
+<div class="wrap hero-bot">
+  <span></span>
+  <a class="explore" href="#systems">Explore my work ${I.down}</a>
+  ${S.reply?`<p class="reply"><small>Reply time</small><span>${e(S.reply)}</span></p>`:"<span></span>"}
+</div></section>
+
+${allSys.length?`<section class="sec solid" id="systems" aria-labelledby="systems-title"><div class="wrap">
+  <div class="sec-head rv"><h2 class="sec-title" id="systems-title">${e(SYS.title)}</h2>${SYS.intro?`<p class="sec-intro">${e(SYS.intro)}</p>`:""}</div>
+  ${S.myRole||(S.proof||[]).length||gameLink?`<div class="cred rv">
+    ${S.myRole?`<p class="role-line"><b>My role</b>${e(S.myRole)}</p>`:""}
+    ${(S.proof||[]).length?`<dl class="proof">${S.proof.map(x=>`<div><dt>${e(x.n)}</dt><dd>${e(x.label)}</dd></div>`).join("")}</dl>`:""}
+    ${gameLink?`<a class="btn play" href="${e(gameLink)}" target="_blank" rel="noopener">${I.roblox}Play it on Roblox</a>`:""}
+  </div>`:""}
+  <div class="syswrap">
+    <aside class="tl-col"><nav class="systl" id="systl" aria-label="Systems">
+      <ol>${allSys.map((x,j)=>{const n=(x.parts||[]).length;return `<li style="--c:${e(colorOf(x,j))}"><a href="#sys-${j}"><i class="dot" aria-hidden="true"></i><span><b>${e(x.title)}</b><small>${n} part${n===1?"":"s"}</small></span></a></li>`}).join("")}</ol>
+    </nav></aside>
+    <div class="panels">${allSys.map((x,j)=>{const c=colorOf(x,j),ps=x.parts||[];return `<article class="sysband" id="sys-${j}" style="--c:${e(c)}" aria-labelledby="sys-t-${j}">
+      <header class="band-head"><span class="band-icon" aria-hidden="true">${I[x.icon]||I.ui}</span><div><p class="band-n">System ${nn(j)}</p><h2 id="sys-t-${j}">${e(x.title)}</h2>${x.text?`<p class="band-txt">${e(x.text)}</p>`:""}</div><span class="band-side">${x.code?`<a class="codebtn" href="${e(url(x.code))}" target="_blank" rel="noopener">View code ${I.up}</a>`:""}<small>${ps.length} part${ps.length===1?"":"s"}</small></span></header>
+      ${ps.length?`<div class="parts">${ps.map(pt=>`<div class="part">${media(pt)}<h3>${e(pt.title)}${pt.label?`<small>${e(pt.label)}</small>`:""}</h3>${pt.cap?`<p class="cap">${e(pt.cap)}</p>`:""}</div>`).join("")}</div>`:media(x)}
+    </article>`}).join("")}</div>
+  </div>
+</div></section>`:""}
+
+${(S.skills||[]).length?`<section class="sec" id="skills" aria-labelledby="skills-title"><div class="wrap">
+  <div class="sec-head rv"><h2 class="sec-title" id="skills-title">${e(KS.title)}</h2></div>
+  <div class="skills">${S.skills.map(k=>`<article class="skill rv"><h3>${e(k.title)}</h3>${k.text?`<p>${e(k.text)}</p>`:""}${chips(points(k.items))}${k.see?`<a class="see" href="#${e(k.see)}">See it ${I.down}</a>`:""}</article>`).join("")}</div>
+</div></section>`:""}
+
+${(S.vouches||[]).length?`<section class="sec" id="vouches" aria-labelledby="vouch-title"><div class="wrap">
+  <div class="sec-head rv"><h2 class="sec-title" id="vouch-title">What people say</h2></div>
+  <div class="vouches">${S.vouches.map(v=>`<blockquote class="vouch rv"><p>“${e(v.quote)}”</p><footer>${v.link?`<a href="${e(url(v.link))}" target="_blank" rel="noopener">${e(v.who)}</a>`:e(v.who)}</footer></blockquote>`).join("")}</div>
+</div></section>`:""}
+
+<section class="sec cta" id="contact" aria-labelledby="contact-title"><div class="wrap">
+  <h2 class="rv" id="contact-title">${accent(CS.title)}</h2>
+  ${CS.text?`<p class="sub rv">${e(CS.text)}</p>`:""}
+  <div class="row rv">
+    ${C.email?`<a class="btn" href="mailto:${e(C.email)}?subject=Project%20enquiry">${I.mail}Email me</a>`:""}
+    ${C.discord?`<button class="box" type="button" data-copy="${e(C.discord)}">${I.chat}<span>Discord: ${e(C.discord)}</span></button>`:""}
+    ${discordOpen?`<a class="lnk" href="https://discord.com/users/${e(C.discordId)}" target="_blank" rel="noopener">Open Discord ${I.up}</a>`:""}
+  </div>
+  <dl class="meta rv">
+    ${C.email?`<div><dt>Email</dt><dd>${e(C.email)}</dd></div>`:""}
+    ${S.reply?`<div><dt>Reply time</dt><dd>${e(S.reply)}</dd></div>`:""}
+    ${S.hours?`<div><dt>Time zone</dt><dd>${e(S.hours)}</dd></div>`:""}
+    ${S.payment?`<div><dt>Payment</dt><dd>${e(S.payment)}</dd></div>`:""}
+  </dl>
+</div></section>
+</main>
+<footer class="site"><div class="wrap">
+  ${icons()}
+  <p class="made">Crafted with <i>♥</i> by ${e(S.name)}</p>
+  ${S.updated?`<p class="upd">Updated ${e(S.updated)}</p>`:""}
+</div></footer>
+<dialog class="po" id="po" tabindex="-1" aria-labelledby="po-title">
+  <div class="po-bar">
+    <button class="po-back" type="button" data-close>${I.left}<span>Back</span></button>
+    <p class="po-crumb" aria-hidden="true"></p>
+    <button class="po-x" type="button" data-close aria-label="Close">${I.close}</button>
+  </div>
+  <div class="po-in"></div>
+</dialog>`;
+
+/* ---------- copy the Discord username ---------- */
+const say=t=>{const l=document.getElementById("live");l.textContent="";setTimeout(()=>l.textContent=t,50)};
+const copyText=t=>(navigator.clipboard?navigator.clipboard.writeText(t):Promise.reject()).catch(()=>{const a=document.createElement("textarea");a.value=t;a.style.cssText="position:fixed;opacity:0";document.body.append(a);a.select();try{document.execCommand("copy")}catch(_){}a.remove()});
+document.addEventListener("click",ev=>{
+  const c=ev.target.closest("[data-copy]");
+  if(!c)return;
+  copyText(c.dataset.copy).then(()=>{
+    say("Discord username copied");
+    const span=c.querySelector("span");
+    if(span){const t=span.textContent;span.textContent="Copied!";setTimeout(()=>span.textContent=t,1600)}
+    if(c.dataset.tip){const t=c.dataset.tip;c.dataset.tip="Copied!";setTimeout(()=>c.dataset.tip=t,1600)}
+  });
+});
+
+/* ---------- fade things up as they scroll in ---------- */
+(()=>{
+  const rv=[...document.querySelectorAll(".rv")];
+  if(typeof IntersectionObserver==="undefined"){rv.forEach(el=>el.classList.add("in"));return}
+  const io=new IntersectionObserver(es=>es.forEach(en=>{if(en.isIntersecting){en.target.classList.add("in");io.unobserve(en.target)}}),{rootMargin:"0px 0px -8% 0px"});
+  rv.forEach(el=>io.observe(el));
+})();
+(()=>{
+  /* the menu link for the section you're in: the last section whose top has passed 40% of the screen; above them all, Home.
+     At the very bottom of the page the last section wins, even if it's too short to reach that line. */
+  const links=[...document.querySelectorAll(".nav a")];
+  const secs=links.map(a=>a.getAttribute("href")==="#top"?null:document.querySelector(a.getAttribute("href")));
+  let queued=false,cur=-1;
+  const update=()=>{
+    queued=false;
+    let k=0;
+    const line=innerHeight*.4,bottom=innerHeight+scrollY>=document.documentElement.scrollHeight-2;
+    secs.forEach((el,j)=>{if(el&&el.getBoundingClientRect().top<line)k=j});
+    if(bottom&&scrollY>0)k=secs.length-1;
+    if(k===cur)return;
+    cur=k;links.forEach((a,j)=>a.classList.toggle("on",j===k));
+  };
+  const ask=()=>{if(!queued){queued=true;requestAnimationFrame(update)}};
+  addEventListener("scroll",ask,{passive:true});
+  addEventListener("resize",ask);
+  addEventListener("load",update);
+  update();
+})();
+
+/* ---------- videos ----------
+   Videos play by themselves, muted and looping, while they're on screen (and pause when you scroll away).
+   On a project page, clicking a video plays it with sound and controls. YouTube's player script loads only when a video first needs it.
+   Opened straight from a folder (file://) YouTube refuses to play embeds, so you only see thumbnails until the site is online. */
+const LOCAL=location.protocol==="file:",STILL=matchMedia("(prefers-reduced-motion:reduce)").matches;
+let ytLoading=false,ytFailed=false,pageOpen=false;const ytWaiting=[];
+const withApi=cb=>{
+  if(window.YT&&YT.Player)return cb(true);
+  if(ytFailed)return cb(false);
+  ytWaiting.push(cb);
+  if(ytLoading)return;
+  ytLoading=true;
+  const prev=window.onYouTubeIframeAPIReady;
+  window.onYouTubeIframeAPIReady=()=>{if(prev)prev();ytWaiting.splice(0).forEach(f=>f(true))};
+  const s=document.createElement("script");
+  s.src="https://www.youtube.com/iframe_api";
+  s.onerror=()=>{ytFailed=true;ytWaiting.splice(0).forEach(f=>f(false))};
+  document.head.append(s);
+};
+const players=new Map();   /* video element -> its muted preview player */
+const preview=(m,on)=>{
+  let c=players.get(m);
+  if(!on){if(c){c.want=false;if(c.ready&&!c.dead)try{c.p.pauseVideo()}catch(_){}}return}
+  if(STILL||LOCAL)return;
+  if(c){c.want=true;if(c.ready&&!c.dead)try{c.p.mute();c.p.playVideo()}catch(_){}return}
+  c={want:true,ready:false,dead:false,p:null};players.set(m,c);
+  withApi(ok=>{
+    if(!ok||!m.isConnected||players.get(m)!==c)return;
+    const id=m.dataset.yt,vp=m.querySelector(".vp");
+    if(!vp)return;
+    c.p=new YT.Player(vp.firstElementChild,{
+      host:"https://www.youtube-nocookie.com",
+      videoId:id,
+      playerVars:{autoplay:0,mute:1,controls:0,disablekb:1,fs:0,iv_load_policy:3,rel:0,playsinline:1,modestbranding:1,loop:1,playlist:id},
+      events:{
+        onReady:ev=>{c.ready=true;const f=ev.target.getIframe();f.tabIndex=-1;f.title="Preview: "+m.dataset.title;if(c.want)ev.target.playVideo()},
+        onStateChange:ev=>{if(ev.data===1)vp.classList.add("on");else if(ev.data===0){ev.target.seekTo(0);ev.target.playVideo()}},
+        onError:()=>{c.dead=true;try{c.p.destroy()}catch(_){}vp.remove()}
+      }
+    });
+  });
+};
+const drop=m=>{const c=players.get(m);if(c){try{c.p&&c.p.destroy()}catch(_){}players.delete(m)}};
+/* clip files: the file starts downloading a little before the clip scrolls in, and plays while you stream it (no full download first) */
+const clipVideo=m=>{
+  const v=m.querySelector("video");
+  if(v&&!v.getAttribute("src")){
+    v.preload="auto";v.src=m.dataset.clip;
+    v.addEventListener("loadeddata",()=>v.classList.add("on"),{once:true});
+    v.addEventListener("error",()=>{m.classList.add("broken");console.warn("Couldn't load clip:",m.dataset.clip)},{once:true});
+  }
+  return v;
+};
+const clipPreview=(m,on)=>{
+  const v=m.querySelector("video");
+  if(!v)return;
+  if(!on){if(!v.paused)v.pause();return}
+  clipVideo(m);
+  if(STILL)return;   /* reduced motion: show the first frame, play only when clicked */
+  v.muted=true;
+  const p=v.play();if(p&&p.catch)p.catch(()=>{});
+};
+const layerOn=m=>{const l=m.closest(".pcard.layer");return !l||l.classList.contains("on")};
+const sync=m=>{
+  if(!m.classList.contains("auto")||m.classList.contains("playing"))return;
+  const inPage=!!m.closest(".po"),on=!!m._vis&&layerOn(m)&&(inPage||!pageOpen)&&!document.hidden;
+  if(m.classList.contains("clip"))clipPreview(m,on);else preview(m,on);
+};
+const syncAll=()=>document.querySelectorAll(".media.auto").forEach(sync);
+const vio=typeof IntersectionObserver!=="undefined"?new IntersectionObserver(es=>es.forEach(en=>{en.target._vis=en.intersectionRatio>=.4;sync(en.target)}),{threshold:[0,.4]}):null;
+/* starts fetching a clip about half a screen before it scrolls in */
+const nio=typeof IntersectionObserver!=="undefined"?new IntersectionObserver(es=>es.forEach(en=>{if(en.isIntersecting){clipVideo(en.target);nio.unobserve(en.target)}}),{rootMargin:"50% 0px"}):null;
+const watch=root=>root.querySelectorAll(".media.auto").forEach(m=>{
+  m._html=m.innerHTML;
+  if(m.classList.contains("clip")){if(nio)nio.observe(m);else clipVideo(m)}
+  if(vio)vio.observe(m);else{m._vis=true;sync(m)}
+});
+const unwatch=root=>root.querySelectorAll(".media.auto").forEach(m=>{
+  if(vio)vio.unobserve(m);if(nio)nio.unobserve(m);
+  const v=m.querySelector("video");if(v){v.pause();v.removeAttribute("src");v.load()}   /* frees the download */
+  drop(m);
+});
+document.addEventListener("visibilitychange",syncAll);
+const stopSound=m=>{
+  const v=m.querySelector("video");
+  if(m.classList.contains("clip")&&v){v.muted=true;v.controls=false}
+  else if(m._html!==undefined)m.innerHTML=m._html;
+  m.classList.remove("playing");sync(m);
+};
+const playSound=m=>{
+  if(!m)return;
+  document.querySelectorAll(".media.playing").forEach(o=>{if(o!==m)stopSound(o)});   /* one video with sound at a time */
+  if(m.classList.contains("clip")){   /* a clip file: start it over with sound and controls */
+    const v=clipVideo(m);if(!v)return;
+    m.classList.add("playing");
+    v.controls=true;v.muted=false;try{v.currentTime=0}catch(_){}
+    const p=v.play();if(p&&p.catch)p.catch(()=>{v.muted=true;v.play().catch(()=>{})});
+    return;
+  }
+  drop(m);
+  const id=m.dataset.yt;
+  m.classList.add("playing");
+  m.innerHTML=LOCAL
+    ?`<p class="note">Videos play once the site is online (GitHub Pages). Opened from a folder, YouTube blocks them. <a href="https://www.youtube.com/watch?v=${id}" target="_blank" rel="noopener">Watch on YouTube</a></p>`
+    :`<iframe src="https://www.youtube-nocookie.com/embed/${id}?autoplay=1&rel=0&playsinline=1&modestbranding=1" title="${e(m.dataset.title)}" allow="autoplay; encrypted-media; picture-in-picture; fullscreen" allowfullscreen></iframe>`;
+};
+watch(document.getElementById("app"));
+
+/* ---------- career layout: the item whose top has passed the middle of the screen is the current one;
+   its card shows on the right and its video plays. scroller = what scrolls (the window, or a project page). ---------- */
+const career=(root,scroller)=>{
+  if(!root)return {stop(){}};
+  const items=[...root.querySelectorAll(".c-item")],layers=[...root.querySelectorAll(".pcard.layer")];
+  if(!items.length)return {stop(){}};
+  let active=-1,queued=false;
+  root.classList.add("live");
+  const update=()=>{
+    queued=false;
+    const line=innerHeight*.5;let k=0;
+    items.forEach((el,j)=>{if(el.getBoundingClientRect().top<line)k=j});
+    if(k===active)return;
+    const old=active;active=k;
+    if(old>=0){
+      items[old].classList.remove("on");
+      if(layers[old]){layers[old].classList.remove("on");const m=layers[old].querySelector(".media.auto");if(m){if(m.classList.contains("playing"))stopSound(m);else sync(m)}}
+    }
+    items[k].classList.add("on");
+    if(layers[k]){layers[k].classList.add("on");const m=layers[k].querySelector(".media.auto");if(m)sync(m)}
+  };
+  const ask=()=>{if(!queued){queued=true;requestAnimationFrame(update)}};
+  scroller.addEventListener("scroll",ask,{passive:true});
+  addEventListener("resize",ask);
+  update();
+  return {stop(){scroller.removeEventListener("scroll",ask);removeEventListener("resize",ask)}};
+};
+/* clicking a clip on the home page plays it with sound */
+document.addEventListener("click",ev=>{const pl=ev.target.closest("[data-play]");if(pl&&!pl.closest(".po"))playSound(pl.closest(".media"))});
+
+/* ---------- project / system pages ----------
+   A card opens its page over the site. The page gets its own address (#its-title), so the browser's Back button
+   closes it and a shared link opens it. If the browser won't let the address change (some previews block it),
+   the page still opens; only the address stays the same. */
+(()=>{
+  const po=document.getElementById("po"),inner=po.querySelector(".po-in"),crumb=po.querySelector(".po-crumb");
+  const H=Object.assign({inside:"What’s inside",loop:"The game loop"},S.pageHeadings||{});
+  const hist=(fn,...a)=>{try{history[fn](...a);return true}catch(_){return false}};
+  const fromHash=()=>{try{return SLUGS.indexOf(decodeURIComponent(location.hash.slice(1)))}catch(_){return -1}};
+  let cur=-1,pushed=false;
+
+  const render=i=>{
+    const {d}=ENTRIES[i],id=vid(d.yt)||vid(d.link),roblox=d.link&&!vid(d.link)?url(d.link):"";
+    const sys=d.systems||[],loop=points(d.loop);
+    const next=ENTRIES.length>1?(i+1)%ENTRIES.length:-1;
+    const partsOf=x=>x.parts||[];
+    inner.innerHTML=`
+<div class="wrap"><header class="po-top">
+  ${d.label?`<p class="eyebrow">${e(d.label)}</p>`:""}
+  <h1 id="po-title">${e(d.title)}</h1>
+  ${d.about||d.blurb?`<p class="po-about">${e(d.about||d.blurb)}</p>`:""}
+  ${chips(d.tags)}
+  ${roblox||id?`<div class="links">${roblox?`<a href="${e(roblox)}" target="_blank" rel="noopener">Play on Roblox ${I.up}</a>`:""}${id?`<a href="https://www.youtube.com/watch?v=${id}" target="_blank" rel="noopener">Watch on YouTube ${I.up}</a>`:""}</div>`:""}
+</header>
+${d.clip||id?`<div class="po-demo">${media(d)}</div>`:""}</div>
+${loop.length?`<section class="sec"><div class="wrap">
+  <div class="sec-head"><h2 class="sec-title">${e(H.loop)}</h2></div>
+  <ol class="loop">${loop.map((t,j)=>`<li class="step"><span>${nn(j)}</span>${e(t)}</li>${j<loop.length-1?`<li class="arr" aria-hidden="true">${I.chev}</li>`:""}`).join("")}<li class="again">${I.again}<span>repeat</span></li></ol>
+</div></section>`:""}
+${sys.length?`<section class="sec"><div class="wrap">${sys.map((x,j)=>{const c=colorOf(x,j),ps=partsOf(x),own=vid(x.yt);return `<article class="sysb" id="sys-${j}" style="--c:${e(c)}">
+    <div class="sysb-head"><i class="dot" aria-hidden="true"></i><span class="n">${nn(j)}</span><h2>${e(x.title)}</h2>${ps.length?`<small>${ps.length} part${ps.length===1?"":"s"}</small>`:""}</div>
+    ${own||!ps.length?`<div class="pcard on"><h4>${e(x.card||x.title)}</h4>${media(x)}</div>`:""}
+    ${ps.length?`<div class="parts">${ps.map(pt=>`<div class="part">${media(pt)}<h3>${e(pt.title)}${pt.label?`<small>${e(pt.label)}</small>`:""}</h3></div>`).join("")}</div>`:""}
+  </article>`}).join("")}</div></section>`:""}
+<div class="wrap"><footer class="po-foot">
+  <button class="lnk" type="button" data-close>${I.left} Back to all projects</button>
+  ${next>=0?`<a class="po-next" href="#${SLUGS[next]}" data-next="${next}"><small class="eyebrow">Next project</small><b>${e(ENTRIES[next].d.title)} ${I.right}</b></a>`:""}
+</footer></div>`;
+    crumb.innerHTML=`Projects / <b>${e(d.title)}</b>`;
+  };
+  const teardown=()=>{unwatch(inner);inner.innerHTML=""};
+
+  const show=(i,mode)=>{   /* mode: "push" = a card was clicked, "replace" = Next, "none" = Back/Forward or a shared link */
+    if(!ENTRIES[i])return;
+    if(cur>=0)teardown();
+    render(i);cur=i;
+    /* 1. open the page */
+    if(!po.open){
+      pageOpen=true;syncAll();
+      document.documentElement.classList.add("po-open");
+      try{po.showModal()}catch(_){po.setAttribute("open","")}
+      try{po.focus({preventScroll:true})}catch(_){}
+    }
+    po.scrollTop=0;
+    watch(inner);
+    document.title=`${ENTRIES[i].d.title} - ${S.name}`;
+    /* 2. then try to put it in the address bar */
+    const h="#"+SLUGS[i];
+    if(mode==="push"&&location.hash!==h){if(hist("pushState",{po:i},"",h))pushed=true}
+    else if(mode==="replace")hist("replaceState",history.state,"",h);
+  };
+  const close=()=>{if(po.open)po.close();else if(po.hasAttribute("open")){po.removeAttribute("open");po.dispatchEvent(new Event("close"))}};
+  po.addEventListener("close",()=>{
+    teardown();cur=-1;
+    document.documentElement.classList.remove("po-open");
+    document.title=`${S.name} - ${S.role}`;
+    pageOpen=false;syncAll();
+    if(fromHash()>=0){
+      if(pushed){pushed=false;try{history.back()}catch(_){}}
+      else hist("replaceState",null,"",location.pathname+location.search);
+    }
+  });
+  addEventListener("popstate",()=>{
+    const i=fromHash();
+    if(i>=0){if(i!==cur)show(i,"none")}
+    else if(cur>=0){pushed=false;close()}
+  });
+  po.addEventListener("click",ev=>{
+    const t=ev.target;
+    const go=t.closest("[data-go]");
+    if(go){const el=inner.querySelector("#sys-"+go.dataset.go);if(el)el.scrollIntoView({behavior:STILL?"auto":"smooth",block:"start"});return}
+    const pl=t.closest("[data-play]");
+    if(pl){playSound(pl.closest(".media"));return}
+    if(t.closest("[data-close]")){close();return}
+    const nx=t.closest("[data-next]");
+    if(nx){ev.preventDefault();show(+nx.dataset.next,"replace")}
+  });
+  document.addEventListener("click",ev=>{
+    const t=ev.target.closest("[data-open]");
+    if(t&&!t.closest(".po")){ev.preventDefault();show(+t.dataset.open,"push")}
+  });
+  const first=fromHash();
+  if(first>=0)show(first,"none");
+})();
+
+/* ---------- systems timeline: the circle of the system you're on lights up, ones you've passed stay filled,
+   and the line after each circle fills in as you scroll through that system ---------- */
+(()=>{
+  const nav=document.getElementById("systl");
+  if(!nav)return;
+  const items=[...nav.querySelectorAll("li")];
+  const panels=items.map(li=>document.querySelector(li.querySelector("a").getAttribute("href")));
+  let queued=false;
+  const update=()=>{
+    queued=false;
+    const line=innerHeight*.45;let k=0;
+    panels.forEach((p,j)=>{if(p.getBoundingClientRect().top<line)k=j});
+    const r=panels[k].getBoundingClientRect(),t=Math.min(Math.max((line-r.top)/r.height,0),1);
+    items.forEach((li,j)=>{
+      li.classList.toggle("on",j===k);li.classList.toggle("done",j<k);
+      li.style.setProperty("--p",(j<k?100:j===k?t*100:0).toFixed(1)+"%");
+      const a=li.querySelector("a");if(j===k)a.setAttribute("aria-current","true");else a.removeAttribute("aria-current");
+    });
+  };
+  const ask=()=>{if(!queued){queued=true;requestAnimationFrame(update)}};
+  addEventListener("scroll",ask,{passive:true});
+  addEventListener("resize",ask);
+  update();
+})();
+
+/* ---------- the little character that follows the mouse (not on touch screens or with reduced motion) ---------- */
+(()=>{
+  const el=document.getElementById("buddy");
+  if(!el||!matchMedia("(hover:hover) and (pointer:fine)").matches||STILL)return;
+  const off=el.offsetWidth/2+8;   /* rests just below and right of the pointer so the cursor stays visible */
+  let x=0,y=0,tx=0,ty=0,seen=false,busy=false,last=0;
+  const put=()=>{el.style.transform=`translate3d(${x.toFixed(1)}px,${y.toFixed(1)}px,0)`};
+  const step=t=>{
+    const k=1-Math.exp(-3.6*Math.min(Math.max((t-last)/1000,0),.05));   /* 3.6 = how quickly it catches up */
+    last=t;x+=(tx-x)*k;y+=(ty-y)*k;put();
+    if(Math.abs(tx-x)+Math.abs(ty-y)>.3)requestAnimationFrame(step);else busy=false;
+  };
+  addEventListener("pointermove",ev=>{
+    if(ev.pointerType==="touch")return;
+    tx=ev.clientX+off;ty=ev.clientY+off;
+    if(!seen){seen=true;x=tx;y=ty;put();el.classList.add("on")}
+    if(!busy){busy=true;last=performance.now();requestAnimationFrame(step)}
+  },{passive:true});
+})();
+</script>
+</body>
+</html>
